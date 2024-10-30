@@ -18,5 +18,8 @@ pub use mev_share::{MevShareBundle, MevShareProviderExt};
 mod transport;
 pub use transport::{BundleSigner, MevHttp};
 
+mod utils;
+
+
 #[cfg(feature = "reqwest")]
 pub use {eth::EthereumReqwestEthBundle, mev_share::EthereumReqwestMevShareBundle};

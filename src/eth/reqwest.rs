@@ -13,10 +13,11 @@ use alloy::{
     transports::{http::Http, TransportErrorKind, TransportResult},
 };
 use async_trait::async_trait;
+use crate::utils;
 
 use crate::{BroadcastableCall, Endpoints, EndpointsBuilder, EthBundle, EthMevProviderExt};
 
-/// A [`EthBundle`] on Ethereun network using Reqwest HTTP transport.
+/// A [`EthBundle`] on Ethereum network using Reqwest HTTP transport.
 pub type EthereumReqwestEthBundle<'a, P> = EthBundle<'a, P, Http<reqwest::Client>, Ethereum>;
 
 #[async_trait]
@@ -55,6 +56,35 @@ where
             self.client().make_request("eth_sendBundle", (bundle,)),
         )
         .await
+    }
+
+    async fn send_eth_bundle_pro(
+        &self,
+        bundle: EthSendBundle,
+        endpoints: &Endpoints,
+    ) -> Vec<TransportResult<SendBundleResponse>> {
+        let gg = BroadcastableCall::new(
+            endpoints,
+            self.client().make_request("eth_sendBundle", (bundle,)),
+        )
+        .await;
+
+        match gg {
+            Some(r) => Ok(utils::pending_bundle::PendingBundle::new(
+                r.bundle_hash,
+                bundle.block_number,
+                bundle.txs,
+                endpoints,
+            )),
+            None => Ok(utils::pending_bundle::PendingBundle::new(
+                None,
+                bundle.block().unwrap(),
+                bundle.transaction_hashes(),
+                self.provider(),
+            )),
+        };
+
+        return gg;
     }
 
     async fn send_eth_private_transaction(

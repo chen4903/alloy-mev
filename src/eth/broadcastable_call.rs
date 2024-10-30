@@ -52,6 +52,8 @@ impl<Params, Resp> Future for BroadcastableCall<Params, Resp> {
 
 impl<Params, Resp> Debug for BroadcastableCall<Params, Resp> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("BroadcastableCall").finish()
+        f.debug_struct("BroadcastableCall")
+            .field("phantom", &self.phantom) 
+            .finish()
     }
 }

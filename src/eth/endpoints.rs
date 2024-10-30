@@ -126,6 +126,14 @@ where
         )
     }
 
+    /// Adds Flashbots sepolia test network
+    pub fn flashbots_sepolia(self, bundle_signer: BundleSigner) -> Self {
+        self.authenticated_endpoint(
+            "https://relay-sepolia.flashbots.net".parse().unwrap(),
+            bundle_signer,
+        )
+    }
+
     /// Returns the [`Endpoints`] struct.
     pub fn build(self) -> Endpoints {
         self.endpoints

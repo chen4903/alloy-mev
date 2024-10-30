@@ -19,7 +19,7 @@ use async_trait::async_trait;
 
 use crate::{MevHttp, MevShareBundle, MevShareProviderExt};
 
-/// A [`MevShareBundle`] on Ethereun network using Reqwest HTTP transport.
+/// A [`MevShareBundle`] on Ethereum network using Reqwest HTTP transport.
 pub type EthereumReqwestMevShareBundle<'a, P, S> =
     MevShareBundle<'a, P, Http<reqwest::Client>, Ethereum, S>;
 

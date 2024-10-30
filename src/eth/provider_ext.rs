@@ -40,6 +40,12 @@ where
         endpoints: &Endpoints,
     ) -> Vec<TransportResult<SendBundleResponse>>;
 
+    async fn send_eth_bundle_pro(
+        &self,
+        bundle: EthSendBundle,
+        endpoints: &Endpoints,
+    ) -> Vec<TransportResult<SendBundleResponse>>;
+
     /// Submits a single transaction to one or more builder(s). It takes in a
     /// bundle and provides a bundle hash as a return value.
     async fn send_eth_private_transaction(
